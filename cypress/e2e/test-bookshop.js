@@ -9,7 +9,7 @@ const shop = new Bookshop(baseUrl)
 
 describe('Test the bookshop', () => {
     before(() => {
-        user.userCreate('Asdcw', 'Super!12').then(() => {
+        user.userCreate('Sample user', 'Super!12').then(() => {
             cy.log('User created with ID:', user.id);
         }).then(() => {
             auth.getToken(user.username, user.password)
@@ -26,7 +26,7 @@ describe('Test the bookshop', () => {
         shop.booksList()
     });
 
-    it('Check adding the books', () => {
+    it('Check books adding', () => {
         shop.booksAdd(user.id, auth.token)
     });
 

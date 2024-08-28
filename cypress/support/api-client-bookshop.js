@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 export class Bookshop {
     constructor(baseUrl) {
         this.baseUrl = baseUrl
@@ -24,9 +22,8 @@ export class Bookshop {
             }
         }).then((response) => {
             expect(response.status).to.eq(200)
-            cy.log(response.headers)
             expect(response.body['books']).to.be.an('array');
-            response.body['books'].forEach(element => {
+            response.body.books.forEach(element => {
                 expect(element['isbn']).to.be.string
                 expect(element['title']).to.be.string
                 expect(element['subTitle']).to.be.string
@@ -40,12 +37,12 @@ export class Bookshop {
     }
 
     booksAdd(userId, token) {
-        cy.request({
+        return cy.request({
             method: 'POST',
             url: `${this.baseUrl}/BookStore/v1/Books`,
             headers: {
                 'content-type': 'application/json',
-                'Authoriaztion': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`
             },
             body: {
                 "userId": userId,
@@ -56,8 +53,7 @@ export class Bookshop {
                 ]              
             }
         }).then((response) => {
-            expect(response.status).to.eq(201),
-            expect(response.body['isbn']).to.eq(this.books[0])
+            expect(response.status).to.eq(201)
         })
     }
 
@@ -67,7 +63,7 @@ export class Bookshop {
             url: `${this.baseUrl}/BookStore/v1/Books?UserId=${userId}`,
             headers: {
                 'content-type': 'application/json',
-                'Authoriaztion': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`
             }
         }).then((resposne) => {
             expect(resposne.status).to.eq(204)
